@@ -1,0 +1,23 @@
+#!/bin/bash
+
+
+
+i=1
+linies=`wc -l < esportistes`
+max=0
+pmax=0
+while [ $i -le $linies ]
+do
+	linia=`head -$i esportistes | tail -1`
+	edat=`echo $linia | cut -d: -f4`
+	if [ "$edat" -gt "$max" ];
+	then
+		max=$edat
+		pmax=$i
+	fi
+	let i=i+1
+done
+
+linia=`head -$pmax esportistes | tail -1`
+echo $linia | cut -d: -f 1,2,3,4
+
