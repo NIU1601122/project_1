@@ -2,22 +2,34 @@
 
 
 
-i=1
+i=2
 linies=`wc -l < esportistes`
-max=0
-pmax=0
+linia=`head -1 esportistes | tail -1`
+edat=`echo $linia | cut -d: -f4`
+min=$edat
+pmin=0
+
+
 while [ $i -le $linies ]
 do
 	linia=`head -$i esportistes | tail -1`
 	edat=`echo $linia | cut -d: -f4`
-	if [ "$edat" -gt "$max" ];
+	if [ $edat -eq $min ];
 	then
-		max=$edat
-		pmax=$i
+		min=$edat
+		pmin=$i
+		linia=`head -$pmin esportistes | tail -1`
+		echo $linia | cut -d: -f 1,2,3,4 >> menor
 	fi
+	if [ $edat -lt $min ];
+	then
+		min=$edat
+		pmin=$i
+		linia=`head -$pmin esportistes | tail -1`
+		echo $linia | cut -d: -f 1,2,3,4 > menor
+	fi
+		
 	let i=i+1
 done
 
-linia=`head -$pmax esportistes | tail -1`
-echo $linia | cut -d: -f 1,2,3,4
 
